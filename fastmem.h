@@ -32,7 +32,7 @@ static int readw(int a)
 #ifndef ALLOW_UNALIGNED_IO
 			if (a&1) return p[a] | (p[a+1]<<8);
 #endif
-			return *(word *)(p+a);
+			//return *(word *)(p+a);
 #else
 			return p[a] | (p[a+1]<<8);
 #endif
@@ -57,8 +57,8 @@ static void writew(int a, int w)
 				return;
 			}
 #endif
-			*(word *)(p+a) = w;
-			return;
+			//*(word *)(p+a) = w;
+			//return;
 #else
 			p[a] = w;
 			p[a+1] = w >> 8;

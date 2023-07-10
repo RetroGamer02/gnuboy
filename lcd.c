@@ -94,7 +94,7 @@ static __inline void memcpy8(void *__restrict dest, const void *__restrict src)
 	u64a *d = dest;  u64a const* s = src;
 	*d = *s;
 }
-#define MEMCPY8(d, s) memcpy8(d, s)
+//#define MEMCPY8(d, s) memcpy8(d, s)
 #else
 #define MEMCPY8(d, s) memcpy((d), (s), 8)
 #endif
