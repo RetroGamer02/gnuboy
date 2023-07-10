@@ -278,6 +278,12 @@ int main(int argc, char *argv[])
 	int i, ri = 0, sv = 0;
 	char *opt, *arg, *cmd, *s, *rom = 0;
 
+	gfxInitDefault();
+    
+	consoleInit(GFX_TOP, NULL);
+
+	osSetSpeedupEnable(true);
+
 	DIR* dir = opendir("sdmc:/3ds/GNUBoy");
     if (dir) {
         closedir(dir);
