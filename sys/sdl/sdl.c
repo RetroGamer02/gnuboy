@@ -123,7 +123,7 @@ void vid_init()
 		vmode[1] = 144 * scale;
 	}
 
-	flags = SDL_ANYFORMAT | SDL_HWPALETTE | SDL_HWSURFACE | SDL_FITHEIGHT;
+	flags = SDL_HWPALETTE | SDL_HWSURFACE | SDL_FITHEIGHT;
 
 	if (fullscreen)
 		flags |= SDL_FULLSCREEN;

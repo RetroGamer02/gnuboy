@@ -216,7 +216,7 @@ void die(char *fmt, ...)
 	va_start(ap, fmt);
 	vfprintf(stderr, fmt, ap);
 	va_end(ap);
-	exit(1);
+	//exit(1);
 }
 
 static int bad_signals[] =
@@ -280,7 +280,7 @@ int main(int argc, char *argv[])
 
 	gfxInitDefault();
     
-	consoleInit(GFX_TOP, NULL);
+	consoleInit(GFX_BOTTOM, NULL);
 
 	osSetSpeedupEnable(true);
 
