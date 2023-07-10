@@ -23,6 +23,8 @@
 #define XZ_DEC_SPARC
 #endif
 
+#define XZ_DEC_ARM
+
 /*
  * MSVC doesn't support modern C but XZ Embedded is mostly C89
  * so these are enough.

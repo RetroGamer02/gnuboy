@@ -33,8 +33,8 @@ include $(DEVKITARM)/3ds_rules
 #---------------------------------------------------------------------------------
 TARGET		:=	$(notdir $(CURDIR))
 BUILD		:=	build
-SOURCES		:=	./ xz sys/3ds/ sys/sdl/
-INCLUDES	:=	./ xz sys/3ds/ sys/sdl/
+SOURCES		:=	./ xz/ sys/3ds/ sys/sdl/
+INCLUDES	:=	./ xz/ sys/3ds/ sys/sdl/
 ROMFS		:=	romfs
 #---------------------------------------------------------------------------------
 APP_VER					:= 0050
@@ -53,8 +53,8 @@ ICON        				:= sys/3ds/gameboy.png
 #---------------------------------------------------------------------------------
 ARCH	:= -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
 
-CFLAGS	:= -Wall -Wcast-align -O3 -mword-relocations \
-		 -ffunction-sections -fomit-frame-pointer  \
+CFLAGS	:= -Wall -Wcast-align -g -O3 -mword-relocations \
+		   -ffunction-sections  \
 		$(ARCH)
 
 CFLAGS	+=	$(INCLUDE) -D__3DS__ -DSDL_BUILDING_3DS -DIS_LITTLE_ENDIAN

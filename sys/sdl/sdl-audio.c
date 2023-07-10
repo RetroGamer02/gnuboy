@@ -20,7 +20,7 @@ struct pcm pcm;
 
 
 static int sound = 1;
-static int samplerate = 44100;
+static int samplerate = 32728;
 static int stereo = 1;
 static volatile int audio_done;
 static int paused;
