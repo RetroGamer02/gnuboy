@@ -27,7 +27,10 @@ PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU | THREAD_ATTR_USER);
 #endif
 
 #include <3ds.h>
-
+#include <dirent.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <errno.h>
 
 static char *defaultconfig[] =
 {
@@ -49,8 +52,11 @@ static char *defaultconfig[] =
 	"bind joyright +right",
 	"bind joy2 +b",
 	"bind joy1 +a",
-	"bind joy3 +select",
+	"bind joy7 +select",
 	"bind joy0 +start",
+	"bind joy4 quit",
+	"bind joy5 savestate",
+	"bind joy6 loadstate",
 	"bind 1 \"set saveslot 1\"",
 	"bind 2 \"set saveslot 2\"",
 	"bind 3 \"set saveslot 3\"",
@@ -271,6 +277,16 @@ int main(int argc, char *argv[])
 {
 	int i, ri = 0, sv = 0;
 	char *opt, *arg, *cmd, *s, *rom = 0;
+
+	DIR* dir = opendir("sdmc:/3ds/GNUBoy");
+    if (dir) {
+        closedir(dir);
+    } else if (ENOENT == errno) {
+        //printf("GNUBoy directory error: %d\n" ,errno);
+        mkdir("sdmc:/3ds/GNUBoy", 0700);
+    } else {
+        printf("GNUBoy directory unknown error.\n");
+    }
 
 	/* Avoid initializing video if we don't have to */
 	for (i = 1; i < argc; i++)

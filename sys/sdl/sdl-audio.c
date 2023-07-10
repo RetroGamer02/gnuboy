@@ -49,7 +49,6 @@ void pcm_init()
 	if (!sound) return;
 
 	SDL_InitSubSystem(SDL_INIT_AUDIO);
-
 	as.freq = samplerate;
 	as.format = AUDIO_S8;
 	as.channels = 1 + stereo;

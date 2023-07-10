@@ -14,11 +14,7 @@
 #include <string.h>
 char *strdup();
 
-#ifdef HAVE_SDL2_SDL_H
-#include <SDL2/SDL.h>
-#else
 #include <SDL/SDL.h>
-#endif
 
 void *sys_timer()
 {
@@ -65,7 +61,7 @@ void sys_initpath(char *exe)
 	if (p) *p = 0;
 	else
 	{
-		buf = ".";
+		buf = "sdmc:/3ds/GNUBoy/.";
 		rc_setvar("rcpath", 1, &buf);
 		rc_setvar("savedir", 1, &buf);
 		return;
