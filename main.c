@@ -386,10 +386,37 @@ int main(int argc, char *argv[])
 		else if (argv[i][0] == '-' && argv[i][1]);
 	}
 
+	int screenmode = -1;
+
+	printf("Select Screen mode: \n");
+	printf("Non Scaled: B\n");
+	printf("Fit Height: A\n");
+	printf("FullScreen: X\n");
+	while(screenmode == -1)
+	{
+		hidScanInput();
+		u32 kDown = hidKeysDown();
+
+		if (kDown & KEY_A)
+        {
+            screenmode = 1;
+        }
+		if (kDown & KEY_B)
+        {
+            screenmode = 0;
+        }
+		if (kDown & KEY_X)
+        {
+            screenmode = 2;
+        }
+	}
+
+	consoleClear();
+
 	/* FIXME - make interface modules responsible for atexit() */
 	atexit(shutdown_gnb);
 	catch_signals();
-	vid_init();
+	vid_init(screenmode);
 	joy_init();
 	pcm_init();
 	menu_init();

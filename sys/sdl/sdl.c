@@ -111,11 +111,11 @@ static void overlay_init()
 	SDL_UnlockYUVOverlay(overlay);
 }
 
-void vid_init()
+void vid_init(int screenmode)
 {
 	int flags;
 
-	if (!vmode[0] || !vmode[1])
+	/*if (!vmode[0] || !vmode[1])
 	{
 		int scale = rc_getint("scale");
 		if (scale < 1) scale = 1;
@@ -126,13 +126,24 @@ void vid_init()
 	flags = SDL_HWPALETTE | SDL_HWSURFACE | SDL_FITHEIGHT;
 
 	if (fullscreen)
-		flags |= SDL_FULLSCREEN;
+		flags |= SDL_FULLSCREEN;*/
 
 	if (SDL_Init(SDL_INIT_VIDEO))
 		die("SDL: Couldn't initialize SDL: %s\n", SDL_GetError());
 
-	if (!(screen = SDL_SetVideoMode(vmode[0], vmode[1], vmode[2], flags)))
+	if (screenmode == 0)
+	{
+		if (!(screen = SDL_SetVideoMode(160, 144, 16, SDL_HWPALETTE | SDL_HWSURFACE)))
 		die("SDL: can't set video mode: %s\n", SDL_GetError());
+	} else if (screenmode == 1)
+	{
+		if (!(screen = SDL_SetVideoMode(160, 144, 16, SDL_HWPALETTE | SDL_HWSURFACE | SDL_FITHEIGHT)))
+		die("SDL: can't set video mode: %s\n", SDL_GetError());
+	} else if (screenmode == 2)
+	{
+		if (!(screen = SDL_SetVideoMode(160, 144, 16, SDL_HWPALETTE | SDL_HWSURFACE | SDL_FULLSCREEN)))
+		die("SDL: can't set video mode: %s\n", SDL_GetError());
+	}
 
 	SDL_ShowCursor(0);
 
