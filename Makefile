@@ -37,15 +37,15 @@ SOURCES		:=	./ xz sys/3ds/ sys/sdl/
 INCLUDES	:=	./ xz sys/3ds/ sys/sdl/
 ROMFS		:=	romfs
 #---------------------------------------------------------------------------------
-APP_VER					:= 0001
-APP_TITLE				:= GNUBoy 3DS V0.0.1
+APP_VER					:= 0050
+APP_TITLE				:= GNUBoy 3DS V0.5.0
 APP_DESCRIPTION			:= GNUBoy GBC Emulator for Nintendo 3DS
 APP_AUTHOR				:= RetroGamer02
 PRODUCT_CODE			:= CTR-GNB
 
-#BANNER_AUDIO				:= RapIntro.wav
-#BANNER_IMAGE				:= rapbanner.png
-#ICON        				:= rapicon.png
+#BANNER_AUDIO				:= 
+BANNER_IMAGE				:= sys/3ds/gameboy-banner.png
+ICON        				:= sys/3ds/gameboy.png
 
 #---------------------------------------------------------------------------------
 #---------------------------------------------------------------------------------
