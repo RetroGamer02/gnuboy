@@ -26,6 +26,8 @@ PSP_MODULE_INFO("GnuBoy", 0, 1, 0);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_VFPU | THREAD_ATTR_USER);
 #endif
 
+#include <3ds.h>
+
 
 static char *defaultconfig[] =
 {
@@ -194,7 +196,7 @@ void doevents()
 
 
 
-static void shutdown()
+static void shutdown_gnb()
 {
 	joy_close();
 	vid_close();
@@ -363,7 +365,7 @@ int main(int argc, char *argv[])
 	}
 
 	/* FIXME - make interface modules responsible for atexit() */
-	atexit(shutdown);
+	atexit(shutdown_gnb);
 	catch_signals();
 	vid_init();
 	joy_init();

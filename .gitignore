@@ -1,3 +1,7 @@
 *.o
 *gnuboy
 config.*
+*.3dsx
+build
+*.elf
+*.smdh

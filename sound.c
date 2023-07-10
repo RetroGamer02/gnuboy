@@ -220,12 +220,13 @@ void sound_mix()
 			if (R_NR51 & 32) l += s;
 		}
 		
+		
 		if (S3.on)
 		{
 			s = WAVE[(S3.pos>>22) & 15];
 			if (S3.pos & (1<<21)) s &= 15;
 			else s >>= 4;
-			s -= 8;
+			//s -= 8; //Problem was there
 			S3.pos += S3.freq;
 			if ((R_NR34 & 64) && ((S3.cnt += RATE) >= S3.len))
 				S3.on = 0;
@@ -322,7 +323,7 @@ void s3_init()
 	int i;
 	if (!S3.on) S3.pos = 0;
 	S3.cnt = 0;
-	S3.on = R_NR30 >> 7;
+	S3.on = R_NR30 >> 7; //Maybe a fix if 8?
 	if (S3.on) for (i = 0; i < 16; i++)
 		ram.hi[i+0x30] = 0x13 ^ ram.hi[i+0x31];
 }

@@ -31,7 +31,7 @@ static struct sev *sevs;
 
 
 
-/*void sound_mix(int cycles)
+void sound_mix(int cycles)
 {
 	
 }
@@ -46,7 +46,7 @@ void sound_update(int force)
 		if (sevs->time > cpu.snd) break;
 		
 	}
-}*/
+}
 
 
 
