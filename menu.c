@@ -31,8 +31,7 @@ int videomode = 0;
 void menu_init(void) {
 	ezmenu_init(&ezm, 160, 144, FONTW, FONTH);
 	ezm.wraparound = 1;
-	//vid_init(videomode);
-	vid_init(0);
+	vid_init(1);
 }
 
 static int allowed_ext(char *fn) {
@@ -77,7 +76,7 @@ void menu_initpage(enum menu_page page) {
 		"load state",
 		"save state",
 		"controller config",
-		//"change video mode",
+		"change video mode",
 		"reset",
 		"quit",
 	};
@@ -336,10 +335,10 @@ entry:;
 					menu_initpage(mp_romsel);
 					goto entry;
 				}
-				/*else if(!strcmp(ezm.vislines[ezm.vissel], "change video mode")) {
+				else if(!strcmp(ezm.vislines[ezm.vissel], "change video mode")) {
 					menu_initpage(mp_vidmode);
 					goto entry;
-				}*/
+				}
 				else if(!strcmp(ezm.vislines[ezm.vissel], "controller config")) {
 					menu_initpage(mp_controller);
 					goto entry;
@@ -376,7 +375,7 @@ entry:;
 				menu_paint();
 			} else if (currpage == mp_vidmode) {
 				vid_init(ezm.vissel - 2);
-				menu_initpage(mp_romsel);
+				menu_initpage(mp_main);
 				goto entry;
 			} else if (currpage == mp_savestate || currpage == mp_loadstate) {
 				if(!strcmp(ezm.vislines[ezm.vissel], "back")) {

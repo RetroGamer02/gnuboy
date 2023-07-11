@@ -433,7 +433,7 @@ int main(int argc, char *argv[])
 	if(rom) load_rom_and_rc(rom);
 	else {
 		rc_command("bind esc menu");
-		menu_initpage(mp_vidmode); //mp_romsel
+		menu_initpage(mp_romsel);
 		menu_enter();
 	}
 	while(1) {
