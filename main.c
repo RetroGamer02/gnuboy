@@ -272,7 +272,6 @@ int load_rom_and_rc(char *rom) {
 	return 0;
 }
 
-
 int main(int argc, char *argv[])
 {
 	int i, ri = 0, sv = 0;
@@ -282,9 +281,17 @@ int main(int argc, char *argv[])
     
 	consoleInit(GFX_BOTTOM, NULL);
 
-	osSetSpeedupEnable(true);
+	bool isN3ds;
+	APT_CheckNew3DS(&isN3ds);
+	if (isN3ds)
+	{
+		ptmSysmInit();
+		//Bit0: enable higher clock, Bit1: enable L2 cache.
+		PTMSYSM_ConfigureNew3DSCPU(0b0100000);
+	}
 
-	DIR* dir = opendir("sdmc:/3ds/GNUBoy");
+	DIR* dir;
+	dir = opendir("sdmc:/3ds/GNUBoy");
     if (dir) {
         closedir(dir);
     } else if (ENOENT == errno) {
