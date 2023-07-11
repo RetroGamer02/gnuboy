@@ -54,7 +54,7 @@ static char *defaultconfig[] =
 	"bind joy1 +a",
 	"bind joy7 +select",
 	"bind joy0 +start",
-	"bind joy4 quit",
+	"bind joy4 menu",
 	"bind joy5 savestate",
 	"bind joy6 loadstate",
 	"bind 1 \"set saveslot 1\"",
@@ -69,7 +69,7 @@ static char *defaultconfig[] =
 	"bind 0 \"set saveslot 0\"",
 	"bind ins savestate",
 	"bind del loadstate",
-	"set romdir .",
+	"set romdir sdmc:/roms",
 	"source gnuboy.rc",
 	NULL
 };
@@ -285,9 +285,11 @@ int main(int argc, char *argv[])
 	APT_CheckNew3DS(&isN3ds);
 	if (isN3ds)
 	{
-		ptmSysmInit();
+		osSetSpeedupEnable(true);
+
+		/*ptmSysmInit();
 		//Bit0: enable higher clock, Bit1: enable L2 cache.
-		PTMSYSM_ConfigureNew3DSCPU(0b0100000);
+		PTMSYSM_ConfigureNew3DSCPU(0b0100000);*/
 	}
 
 	DIR* dir;

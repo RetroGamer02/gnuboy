@@ -30,7 +30,6 @@ static char statusline[64];
 void menu_init(void) {
 	ezmenu_init(&ezm, 160, 144, FONTW, FONTH);
 	ezm.wraparound = 1;
-	romdir = "sdmc:/roms/.";
 }
 
 static int allowed_ext(char *fn) {

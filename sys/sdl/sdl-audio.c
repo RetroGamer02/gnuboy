@@ -52,7 +52,7 @@ void pcm_init()
 	as.freq = samplerate;
 	as.format = AUDIO_S8;
 	as.channels = 1 + stereo;
-	as.samples = samplerate / 60;
+	as.samples = samplerate / 30; //Was / 60 helps at higher clock speeds.
 	for (i = 1; i < as.samples; i<<=1);
 	as.samples = i;
 	as.callback = audio_callback;
