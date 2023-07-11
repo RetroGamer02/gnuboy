@@ -26,10 +26,13 @@ static enum menu_page currpage;
 static unsigned char screen[160*144];
 static char statusline[64];
 
+int videomode = 0;
 
 void menu_init(void) {
 	ezmenu_init(&ezm, 160, 144, FONTW, FONTH);
 	ezm.wraparound = 1;
+	//vid_init(videomode);
+	vid_init(0);
 }
 
 static int allowed_ext(char *fn) {
@@ -62,6 +65,10 @@ static char* controller_menu_items[] = {
 	(char[]){'b', 'a', 'c', 'k', 0},
 };
 
+static const char* video_menu_items[] = {
+		"Non Scaled", "Fit Height", "Full Screen",
+	};
+
 void menu_initpage(enum menu_page page) {
 	static const char* loaderr_menu_items[] = {"back"};
 	static const char* main_menu_items[] = {
@@ -70,6 +77,7 @@ void menu_initpage(enum menu_page page) {
 		"load state",
 		"save state",
 		"controller config",
+		//"change video mode",
 		"reset",
 		"quit",
 	};
@@ -100,14 +108,19 @@ void menu_initpage(enum menu_page page) {
 		ezmenu_setlines(&ezm, (void*)loaderr_menu_items, 1);
 		break;
 	case mp_main:
-		ezmenu_setheader(&ezm, "GNUBOY MAIN MENU");
+		ezmenu_setheader(&ezm, "GNUBOY-3DS MAIN MENU");
 		ezmenu_setlines(&ezm, (void*)main_menu_items, sizeof(main_menu_items)/sizeof(main_menu_items[0]));
-		ezmenu_setfooter(&ezm, " ");
+		ezmenu_setfooter(&ezm, "Version 0.5.2");
 		break;
 	case mp_controller:
 		ezmenu_setheader(&ezm, "Controller config");
 		ezmenu_setlines(&ezm, controller_menu_items, sizeof(controller_menu_items)/sizeof(controller_menu_items[0]));
 		ezmenu_setfooter(&ezm, " ");
+		break;
+	case mp_vidmode:
+		ezmenu_setheader(&ezm, "GNUBOY-3DS VIDEO MENU");
+		ezmenu_setlines(&ezm, (void*)video_menu_items, sizeof(video_menu_items)/sizeof(main_menu_items[0]));
+		ezmenu_setfooter(&ezm, "Version 0.5.2");
 		break;
 	case mp_romsel:
 		dir = opendir(romdir);
@@ -323,6 +336,10 @@ entry:;
 					menu_initpage(mp_romsel);
 					goto entry;
 				}
+				/*else if(!strcmp(ezm.vislines[ezm.vissel], "change video mode")) {
+					menu_initpage(mp_vidmode);
+					goto entry;
+				}*/
 				else if(!strcmp(ezm.vislines[ezm.vissel], "controller config")) {
 					menu_initpage(mp_controller);
 					goto entry;
@@ -357,6 +374,10 @@ entry:;
 				ezmenu_setfooter(&ezm, statusline);
 				ezmenu_update(&ezm);
 				menu_paint();
+			} else if (currpage == mp_vidmode) {
+				vid_init(ezm.vissel - 2);
+				menu_initpage(mp_romsel);
+				goto entry;
 			} else if (currpage == mp_savestate || currpage == mp_loadstate) {
 				if(!strcmp(ezm.vislines[ezm.vissel], "back")) {
 					menu_initpage(mp_main);

@@ -5,6 +5,7 @@ enum menu_page {
 	mp_controller,
 	mp_loadstate,
 	mp_savestate,
+	mp_vidmode,
 };
 
 void menu_init(void);

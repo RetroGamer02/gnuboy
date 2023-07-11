@@ -395,7 +395,7 @@ int main(int argc, char *argv[])
 		else if (argv[i][0] == '-' && argv[i][1]);
 	}
 
-	int screenmode = -1;
+	/*int screenmode = -1;
 
 	printf("Select Screen mode: \n");
 	printf("Non Scaled: B\n");
@@ -420,12 +420,12 @@ int main(int argc, char *argv[])
         }
 	}
 
-	consoleClear();
+	consoleClear();*/
 
 	/* FIXME - make interface modules responsible for atexit() */
 	atexit(shutdown_gnb);
 	catch_signals();
-	vid_init(screenmode);
+	//vid_init(screenmode);
 	joy_init();
 	pcm_init();
 	menu_init();
@@ -433,7 +433,7 @@ int main(int argc, char *argv[])
 	if(rom) load_rom_and_rc(rom);
 	else {
 		rc_command("bind esc menu");
-		menu_initpage(mp_romsel);
+		menu_initpage(mp_vidmode); //mp_romsel
 		menu_enter();
 	}
 	while(1) {
