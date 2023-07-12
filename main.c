@@ -70,6 +70,8 @@ static char *defaultconfig[] =
 	"bind ins savestate",
 	"bind del loadstate",
 	"set romdir sdmc:/roms",
+	"set bootrom_dmg sdmc:/3ds/GNUBoy/dmg_bios.bin",
+  	"set bootrom_cgb sdmc:/3ds/GNUBoy/gbc_bios.bin",
 	"source gnuboy.rc",
 	NULL
 };
