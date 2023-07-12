@@ -305,6 +305,16 @@ int main(int argc, char *argv[])
         printf("GNUBoy directory unknown error.\n");
     }
 
+	dir = opendir("sdmc:/roms");
+    if (dir) {
+        closedir(dir);
+    } else if (ENOENT == errno) {
+        //printf("GNUBoy directory error: %d\n" ,errno);
+        mkdir("sdmc:/roms", 0700);
+    } else {
+        printf("roms directory unknown error.\n");
+    }
+
 	/* Avoid initializing video if we don't have to */
 	for (i = 1; i < argc; i++)
 	{
