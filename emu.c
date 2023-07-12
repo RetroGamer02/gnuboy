@@ -13,6 +13,7 @@
 #include "sound.h"
 #include "cpu.h"
 
+#include <3ds.h>
 
 static int framelen = 16743;
 static int framecount;
@@ -73,7 +74,23 @@ void emu_step()
 
 void *sys_timer();
 
-short saveCounter = 0;
+unsigned int saveCounter = 0;
+
+void saveThreadFunc(void(*))
+{
+	while(true) {
+		saveCounter++;
+		if (saveCounter > 130000000)
+		{
+			sram_save();
+			rtc_save();
+			saveCounter = 0;
+			//printf("Saved\n");
+		}
+		
+		if (framecount) { if (!--framecount) die("finished\n"); }
+	}
+}
 
 void emu_run()
 {
@@ -82,6 +99,8 @@ void emu_run()
 
 	vid_begin();
 	lcd_begin();
+	APT_SetAppCpuTimeLimit(10);
+	Thread saveThread = threadCreate(saveThreadFunc, 0x0, 1024, 0x18, 1, true);
 	for (;;)
 	{
 		cpu_emulate(2280);
@@ -99,6 +118,7 @@ void emu_run()
 		}
 		doevents();
 
+		
 		//Currently to slow
 		/*saveCounter++;
 		if (saveCounter > 2000)
