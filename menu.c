@@ -109,7 +109,7 @@ void menu_initpage(enum menu_page page) {
 	case mp_main:
 		ezmenu_setheader(&ezm, "GNUBOY-3DS MAIN MENU");
 		ezmenu_setlines(&ezm, (void*)main_menu_items, sizeof(main_menu_items)/sizeof(main_menu_items[0]));
-		ezmenu_setfooter(&ezm, "Version 0.5.2");
+		ezmenu_setfooter(&ezm, "Version 0.5.3");
 		break;
 	case mp_controller:
 		ezmenu_setheader(&ezm, "Controller config");
@@ -119,7 +119,7 @@ void menu_initpage(enum menu_page page) {
 	case mp_vidmode:
 		ezmenu_setheader(&ezm, "GNUBOY-3DS VIDEO MENU");
 		ezmenu_setlines(&ezm, (void*)video_menu_items, sizeof(video_menu_items)/sizeof(main_menu_items[0]));
-		ezmenu_setfooter(&ezm, "Version 0.5.2");
+		ezmenu_setfooter(&ezm, "Version 0.5.3");
 		break;
 	case mp_romsel:
 		dir = opendir(romdir);

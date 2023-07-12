@@ -287,11 +287,11 @@ int main(int argc, char *argv[])
 	APT_CheckNew3DS(&isN3ds);
 	if (isN3ds)
 	{
-		osSetSpeedupEnable(true);
-
-		/*ptmSysmInit();
+		//osSetSpeedupEnable(true);
+		
+		ptmSysmInit();
 		//Bit0: enable higher clock, Bit1: enable L2 cache.
-		PTMSYSM_ConfigureNew3DSCPU(0b0100000);*/
+		PTMSYSM_ConfigureNew3DSCPU(0b0100000);
 	}
 
 	DIR* dir;

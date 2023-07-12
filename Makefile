@@ -37,8 +37,8 @@ SOURCES		:=	./ xz/ sys/3ds/ sys/sdl/
 INCLUDES	:=	./ xz/ sys/3ds/ sys/sdl/
 ROMFS		:=	romfs
 #---------------------------------------------------------------------------------
-APP_VER					:= 0052
-APP_TITLE				:= GNUBoy 3DS V0.5.2
+APP_VER					:= 0053
+APP_TITLE				:= GNUBoy 3DS V0.5.3
 APP_DESCRIPTION			:= GNUBoy GBC Emulator for Nintendo 3DS
 APP_AUTHOR				:= RetroGamer02
 PRODUCT_CODE			:= CTR-GNB
@@ -54,6 +54,7 @@ ICON        				:= sys/3ds/gameboy.png
 ARCH	:= -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
 
 CFLAGS	:= -Wall -Wcast-align -g -O3 -fomit-frame-pointer \
+		-fdata-sections -ffunction-sections \
 		$(ARCH)
 
 CFLAGS	+=	$(INCLUDE) -D__3DS__ -DSDL_BUILDING_3DS -DIS_LITTLE_ENDIAN
