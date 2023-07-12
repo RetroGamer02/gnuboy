@@ -207,6 +207,8 @@ void ev_poll(int wait)
 			sdljoy_process_event(&event);
 			break;
 		case SDL_QUIT:
+			sram_save(); //Added
+			rtc_save(); //Added
 			exit(1);
 			break;
 		default:

@@ -73,6 +73,8 @@ void emu_step()
 
 void *sys_timer();
 
+short saveCounter = 0;
+
 void emu_run()
 {
 	void *timer = sys_timer();
@@ -96,7 +98,21 @@ void emu_run()
 			sys_elapsed(timer);
 		}
 		doevents();
-		if (paused) return;
+
+		saveCounter++;
+		if (saveCounter > 2000)
+		{
+			sram_save(); //Added
+			rtc_save(); //Added
+			saveCounter = 0;
+		}
+
+		if (paused) {
+			sram_save(); //Added
+			rtc_save(); //Added
+			return;
+		}
+		
 		vid_begin();
 		if (framecount) { if (!--framecount) die("finished\n"); }
 		if (!(R_LCDC & 0x80))
