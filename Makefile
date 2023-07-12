@@ -53,7 +53,7 @@ ICON        				:= sys/3ds/gameboy.png
 #---------------------------------------------------------------------------------
 ARCH	:= -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
 
-CFLAGS	:= -Wall -Wcast-align -g -O3 \
+CFLAGS	:= -Wall -Wcast-align -g -O3 -fomit-frame-pointer \
 		$(ARCH)
 
 CFLAGS	+=	$(INCLUDE) -D__3DS__ -DSDL_BUILDING_3DS -DIS_LITTLE_ENDIAN

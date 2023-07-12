@@ -99,13 +99,14 @@ void emu_run()
 		}
 		doevents();
 
-		saveCounter++;
+		//Currently to slow
+		/*saveCounter++;
 		if (saveCounter > 2000)
 		{
 			sram_save(); //Added
 			rtc_save(); //Added
 			saveCounter = 0;
-		}
+		}*/
 
 		if (paused) {
 			sram_save(); //Added
