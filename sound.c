@@ -127,6 +127,7 @@ void sound_off()
 	R_NR10 = 0x80;
 	R_NR11 = 0xBF;
 	R_NR12 = 0xF3;
+	R_NR13 = 0x00; //Added
 	R_NR14 = 0xBF;
 	R_NR21 = 0x3F;
 	R_NR22 = 0x00;
@@ -135,7 +136,10 @@ void sound_off()
 	R_NR31 = 0xFF;
 	R_NR32 = 0x9F;
 	R_NR34 = 0xBF;
-	R_NR41 = 0xFF;
+	if (hw.cgb || hw.gba)
+	{
+		R_NR41 = 0x00; //Not changed on dmg/pocket
+	}
 	R_NR42 = 0x00;
 	R_NR43 = 0x00;
 	R_NR44 = 0xBF;
