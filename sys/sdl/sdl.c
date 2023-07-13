@@ -143,7 +143,20 @@ void vid_init(int screenmode)
 	{
 		if (!(screen = SDL_SetVideoMode(160, 144, 16, SDL_HWPALETTE | SDL_HWSURFACE | SDL_FULLSCREEN)))
 		die("SDL: can't set video mode: %s\n", SDL_GetError());
+	} else if (screenmode == 3)
+	{
+		if (!(screen = SDL_SetVideoMode(160, 144, 16, SDL_HWPALETTE | SDL_HWSURFACE | SDL_BOTTOMSCR | SDL_CONSOLETOP)))
+		die("SDL: can't set video mode: %s\n", SDL_GetError());
+	} else if (screenmode == 4)
+	{
+		if (!(screen = SDL_SetVideoMode(160, 144, 16, SDL_HWPALETTE | SDL_HWSURFACE | SDL_FITHEIGHT | SDL_BOTTOMSCR | SDL_CONSOLETOP)))
+		die("SDL: can't set video mode: %s\n", SDL_GetError());
+	} else if (screenmode == 5)
+	{
+		if (!(screen = SDL_SetVideoMode(160, 144, 16, SDL_HWPALETTE | SDL_HWSURFACE | SDL_FULLSCREEN | SDL_BOTTOMSCR | SDL_CONSOLETOP)))
+		die("SDL: can't set video mode: %s\n", SDL_GetError());
 	}
+
 
 	SDL_ShowCursor(0);
 
@@ -189,8 +202,8 @@ void ev_poll(int wait)
 				fb.enabled = event.active.gain;
 			break;
 		case SDL_KEYDOWN:
-			if ((event.key.keysym.sym == SDLK_RETURN) && (event.key.keysym.mod & KMOD_ALT))
-				SDL_WM_ToggleFullScreen(screen);
+			/*if ((event.key.keysym.sym == SDLK_RETURN) && (event.key.keysym.mod & KMOD_ALT))
+				SDL_WM_ToggleFullScreen(screen);*/
 			ev.type = EV_PRESS;
 			ev.code = mapscancode(event.key.keysym.sym);
 			ev_postevent(&ev);
@@ -207,8 +220,6 @@ void ev_poll(int wait)
 			sdljoy_process_event(&event);
 			break;
 		case SDL_QUIT:
-			sram_save(); //Added
-			rtc_save(); //Added
 			exit(1);
 			break;
 		default:

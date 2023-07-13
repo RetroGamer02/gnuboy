@@ -26,6 +26,8 @@ static enum menu_page currpage;
 static unsigned char screen[160*144];
 static char statusline[64];
 
+const char* version = "Version 0.5.3";
+
 int videomode = 0;
 
 void menu_init(void) {
@@ -65,7 +67,9 @@ static char* controller_menu_items[] = {
 };
 
 static const char* video_menu_items[] = {
-		"Non Scaled", "Fit Height", "Full Screen",
+		"Top: Non Scaled", "Top: Fit Height", "Top: Full Screen",
+		"Bottom: Non Scaled", "Bottom: Fit Height", "Bottom: Full Screen", 
+		"Back",
 	};
 
 void menu_initpage(enum menu_page page) {
@@ -99,7 +103,7 @@ void menu_initpage(enum menu_page page) {
 	case mp_loadstate:
 		ezmenu_setheader(&ezm, page == mp_savestate ? "Save state" : "Load state");
 		ezmenu_setlines(&ezm, (void*)state_menu_items, sizeof(state_menu_items)/sizeof(main_menu_items[0]));
-		ezmenu_setfooter(&ezm, " ");
+		ezmenu_setfooter(&ezm, version);
 		break;
 	loaderr:
 	case mp_loaderr:
@@ -109,17 +113,17 @@ void menu_initpage(enum menu_page page) {
 	case mp_main:
 		ezmenu_setheader(&ezm, "GNUBOY-3DS MAIN MENU");
 		ezmenu_setlines(&ezm, (void*)main_menu_items, sizeof(main_menu_items)/sizeof(main_menu_items[0]));
-		ezmenu_setfooter(&ezm, "Version 0.5.3");
+		ezmenu_setfooter(&ezm, version);
 		break;
 	case mp_controller:
 		ezmenu_setheader(&ezm, "Controller config");
 		ezmenu_setlines(&ezm, controller_menu_items, sizeof(controller_menu_items)/sizeof(controller_menu_items[0]));
-		ezmenu_setfooter(&ezm, " ");
+		ezmenu_setfooter(&ezm, version);
 		break;
 	case mp_vidmode:
 		ezmenu_setheader(&ezm, "GNUBOY-3DS VIDEO MENU");
 		ezmenu_setlines(&ezm, (void*)video_menu_items, sizeof(video_menu_items)/sizeof(main_menu_items[0]));
-		ezmenu_setfooter(&ezm, "Version 0.5.3");
+		ezmenu_setfooter(&ezm, version);
 		break;
 	case mp_romsel:
 		dir = opendir(romdir);
@@ -130,8 +134,8 @@ void menu_initpage(enum menu_page page) {
 			page = mp_loaderr;
 			goto loaderr;
 		}
-		ezmenu_setheader(&ezm, "GNUBOY ROM Selection");
-		ezmenu_setfooter(&ezm, " ");
+		ezmenu_setheader(&ezm, "GNUBOY-3DS ROM Selection");
+		ezmenu_setfooter(&ezm, version);
 		dirlist = malloc(sizeof(char*));
 		dirlist[0] = strdup("..");
 		dirlistcnt = 1;
@@ -374,6 +378,10 @@ entry:;
 				ezmenu_update(&ezm);
 				menu_paint();
 			} else if (currpage == mp_vidmode) {
+				if(!strcmp(ezm.vislines[ezm.vissel], "back")) {
+					menu_initpage(mp_main);
+					goto entry;
+				}
 				vid_init(ezm.vissel - 2);
 				menu_initpage(mp_main);
 				goto entry;
