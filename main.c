@@ -338,12 +338,12 @@ int main(int argc, char *argv[])
 	if (ri && !rom) usage(base(argv[0]));
 	if (ri) rominfo(rom);
 
-	/* If we have special perms, drop them ASAP! */
+	// If we have special perms, drop them ASAP!
 	vid_preinit();
 
 	init_exports();
 
-	s = strdup(argv[0]);
+	s = ".";//strdup(argv[0]);
 	sys_sanitize(s);
 	sys_initpath(s);
 
@@ -403,7 +403,7 @@ int main(int argc, char *argv[])
 			free(cmd);
 			free(opt);
 		}
-		/* short options not yet implemented */
+		// short options not yet implemented
 		else if (argv[i][0] == '-' && argv[i][1]);
 	}
 
@@ -434,7 +434,7 @@ int main(int argc, char *argv[])
 
 	consoleClear();*/
 
-	/* FIXME - make interface modules responsible for atexit() */
+	// FIXME - make interface modules responsible for atexit()
 	atexit(shutdown_gnb);
 	catch_signals();
 	//vid_init(screenmode);
@@ -450,7 +450,7 @@ int main(int argc, char *argv[])
 	}
 	while(1) {
 		emu_run();
-		/* if we get here it means emu was paused, so enter menu. */
+		// if we get here it means emu was paused, so enter menu.
 		pcm_pause(1);
 		menu_initpage(mp_main);
 		menu_enter();
@@ -458,7 +458,7 @@ int main(int argc, char *argv[])
 		emu_pause(0);
 	}
 
-	/* never reached */
+	// never reached
 	return 0;
 }
 
