@@ -69,7 +69,7 @@ static char* controller_menu_items[] = {
 static const char* video_menu_items[] = {
 		"Top: Non Scaled", "Top: Fit Height", "Top: Full Screen",
 		"Bottom: Non Scaled", "Bottom: Fit Height", "Bottom: Full Screen", 
-		"Back",
+		"back",
 	};
 
 void menu_initpage(enum menu_page page) {
@@ -258,6 +258,8 @@ enum menu_key {
 	mk_up,
 	mk_ok,
 	mk_cancel,
+	mk_left,
+	mk_right,
 };
 
 static enum menu_key menu_translate_key(int k) {
@@ -269,6 +271,12 @@ static enum menu_key menu_translate_key(int k) {
 	case K_DOWN:
 	case K_JOYDOWN:
 		return mk_down;
+	case K_LEFT:
+	case K_JOYLEFT:
+		return mk_left;
+	case K_RIGHT:
+	case K_JOYRIGHT:
+		return mk_right;
 	case K_ENTER:
 		return mk_ok;
 	case 0:
@@ -283,6 +291,8 @@ static enum menu_key menu_translate_key(int k) {
 		if(!strcmp(bind, "start")) return mk_ok;
 		if(!strcmp(bind, "up")) return mk_up;
 		if(!strcmp(bind, "down")) return mk_down;
+		if(!strcmp(bind, "left")) return mk_left;
+		if(!strcmp(bind, "right")) return mk_right;
 		return mk_ignore;
 	}
 }
@@ -301,6 +311,16 @@ entry:;
 			break;
 		case mk_down:
 			ezmenu_userinput(&ezm, EZM_DOWN);
+			menu_paint();
+			break;
+		case mk_left:
+			for (int i = 0; i < 6; i++)
+				ezmenu_userinput(&ezm, EZM_UP);
+			menu_paint();
+			break;
+		case mk_right:
+			for (int i = 0; i < 6; i++)
+				ezmenu_userinput(&ezm, EZM_DOWN);
 			menu_paint();
 			break;
 		case mk_cancel:
@@ -383,7 +403,6 @@ entry:;
 					goto entry;
 				}
 				vid_init(ezm.vissel - 2);
-				menu_initpage(mp_main);
 				goto entry;
 			} else if (currpage == mp_savestate || currpage == mp_loadstate) {
 				if(!strcmp(ezm.vislines[ezm.vissel], "back")) {

@@ -11,7 +11,7 @@
 #include <stdio.h>
 
 #include <SDL/SDL.h>
-
+#include <3ds.h>
 
 #include "fb.h"
 #include "input.h"
@@ -115,48 +115,43 @@ void vid_init(int screenmode)
 {
 	int flags;
 
-	/*if (!vmode[0] || !vmode[1])
-	{
-		int scale = rc_getint("scale");
-		if (scale < 1) scale = 1;
-		vmode[0] = 160 * scale;
-		vmode[1] = 144 * scale;
-	}
+	vmode[0] = 160;
+	vmode[1] = 144;
 
-	flags = SDL_HWPALETTE | SDL_HWSURFACE | SDL_FITHEIGHT;
-
-	if (fullscreen)
-		flags |= SDL_FULLSCREEN;*/
+	flags = SDL_HWPALETTE | SDL_HWSURFACE;
 
 	if (SDL_Init(SDL_INIT_VIDEO))
 		die("SDL: Couldn't initialize SDL: %s\n", SDL_GetError());
 
 	if (screenmode == 0)
 	{
-		if (!(screen = SDL_SetVideoMode(160, 144, 16, SDL_HWPALETTE | SDL_HWSURFACE)))
+		if (!(screen = SDL_SetVideoMode(vmode[0], vmode[1], 16, flags | SDL_CONSOLEBOTTOM)))
 		die("SDL: can't set video mode: %s\n", SDL_GetError());
 	} else if (screenmode == 1)
 	{
-		if (!(screen = SDL_SetVideoMode(160, 144, 16, SDL_HWPALETTE | SDL_HWSURFACE | SDL_FITHEIGHT)))
+		if (!(screen = SDL_SetVideoMode(vmode[0], vmode[1], 16, flags | SDL_FITHEIGHT | SDL_CONSOLEBOTTOM)))
 		die("SDL: can't set video mode: %s\n", SDL_GetError());
 	} else if (screenmode == 2)
 	{
-		if (!(screen = SDL_SetVideoMode(160, 144, 16, SDL_HWPALETTE | SDL_HWSURFACE | SDL_FULLSCREEN)))
+		if (!(screen = SDL_SetVideoMode(vmode[0], vmode[1], 16, flags | SDL_FULLSCREEN | SDL_CONSOLEBOTTOM)))
 		die("SDL: can't set video mode: %s\n", SDL_GetError());
 	} else if (screenmode == 3)
 	{
-		if (!(screen = SDL_SetVideoMode(160, 144, 16, SDL_HWPALETTE | SDL_HWSURFACE | SDL_BOTTOMSCR | SDL_CONSOLETOP)))
+		if (!(screen = SDL_SetVideoMode(vmode[0], vmode[1], 16, flags | SDL_BOTTOMSCR | SDL_CONSOLETOP)))
 		die("SDL: can't set video mode: %s\n", SDL_GetError());
 	} else if (screenmode == 4)
 	{
-		if (!(screen = SDL_SetVideoMode(160, 144, 16, SDL_HWPALETTE | SDL_HWSURFACE | SDL_FITHEIGHT | SDL_BOTTOMSCR | SDL_CONSOLETOP)))
+		if (!(screen = SDL_SetVideoMode(vmode[0], vmode[1], 16, flags | SDL_FITHEIGHT | SDL_BOTTOMSCR | SDL_CONSOLETOP)))
 		die("SDL: can't set video mode: %s\n", SDL_GetError());
 	} else if (screenmode == 5)
 	{
-		if (!(screen = SDL_SetVideoMode(160, 144, 16, SDL_HWPALETTE | SDL_HWSURFACE | SDL_FULLSCREEN | SDL_BOTTOMSCR | SDL_CONSOLETOP)))
+		if (!(screen = SDL_SetVideoMode(vmode[0], vmode[1], 16, flags | SDL_FULLSCREEN | SDL_BOTTOMSCR | SDL_CONSOLETOP)))
 		die("SDL: can't set video mode: %s\n", SDL_GetError());
 	}
 
+	//FILE *config = fopen("sdmc:/3ds/GNUBoy/GNUBoy.cfg", "w");
+	//fprintf(config, "videomode=%d",screenmode);
+	//fclose(config);
 
 	SDL_ShowCursor(0);
 

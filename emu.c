@@ -83,7 +83,7 @@ void saveThreadFunc(void(*))
 		if (saveCounter > 130000000)
 		{
 			sram_save();
-			rtc_save();
+			//rtc_save();
 			saveCounter = 0;
 			//printf("Saved\n");
 		}
@@ -99,8 +99,8 @@ void emu_run()
 
 	vid_begin();
 	lcd_begin();
-	APT_SetAppCpuTimeLimit(10);
-	Thread saveThread = threadCreate(saveThreadFunc, 0x0, 1024, 0x18, 1, true);
+	//APT_SetAppCpuTimeLimit(10);
+	//Thread saveThread = threadCreate(saveThreadFunc, 0x0, 1024, 0x18, 1, true);
 	for (;;)
 	{
 		cpu_emulate(2280);
@@ -118,7 +118,6 @@ void emu_run()
 		}
 		doevents();
 
-		
 		//Currently to slow
 		/*saveCounter++;
 		if (saveCounter > 2000)
@@ -128,11 +127,7 @@ void emu_run()
 			saveCounter = 0;
 		}*/
 
-		if (paused) {
-			sram_save(); //Added
-			rtc_save(); //Added
-			return;
-		}
+		if (paused)	return;
 		
 		vid_begin();
 		if (framecount) { if (!--framecount) die("finished\n"); }
