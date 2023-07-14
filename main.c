@@ -283,7 +283,7 @@ int main(int argc, char *argv[])
     
 	consoleInit(GFX_BOTTOM, NULL);
 
-	bool isN3ds;
+	/*bool isN3ds;
 	APT_CheckNew3DS(&isN3ds);
 	if (isN3ds)
 	{
@@ -292,7 +292,7 @@ int main(int argc, char *argv[])
 		ptmSysmInit();
 		//Bit0: enable higher clock, Bit1: enable L2 cache.
 		PTMSYSM_ConfigureNew3DSCPU(0b0100000);
-	}
+	}*/
 
 	DIR* dir;
 	dir = opendir("sdmc:/3ds/GNUBoy");
