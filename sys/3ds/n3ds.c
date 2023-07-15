@@ -14,23 +14,33 @@
 #include <string.h>
 char *strdup();
 
-#include <SDL/SDL.h>
+#include <3ds.h>
+
+static uint64_t startTicks;
+bool startedTicks;
 
 void *sys_timer()
 {
-	Uint32 *tv;
+	uint32_t *tv;
+
+	if (!startedTicks)
+	{
+		startTicks = svcGetSystemTick();
+		startedTicks = true;
+	}
 	
 	tv = malloc(sizeof *tv);
-	*tv = SDL_GetTicks() * 1000;
+	//*tv = ((svcGetSystemTick() - startTicks) * 1000 / 268111856) * 1000;
+	*tv = ((((svcGetSystemTick() - startTicks) * 1000) * 0x11) >> 32) * 1000;
 	return tv;
 }
 
-int sys_elapsed(Uint32 *cl)
+int sys_elapsed(uint32_t *cl)
 {
-	Uint32 now;
-	Uint32 usecs;
+	uint32_t now;
+	uint32_t usecs;
 
-	now = SDL_GetTicks() * 1000;
+	now = ((((svcGetSystemTick() - startTicks) * 1000) * 0x11) >> 32) * 1000;
 	usecs = now - *cl;
 	*cl = now;
 	return usecs;
@@ -38,10 +48,7 @@ int sys_elapsed(Uint32 *cl)
 
 void sys_sleep(int us)
 {
-	/* dbk: for some reason 2000 works..
-	   maybe its just compensation for the time it takes for SDL_Delay to
-	   execute, or maybe sys_timer is too slow */
-	SDL_Delay(us/1000);
+	svcSleepThread((uint64_t)(us/1000) * 1000000ULL);
 }
 
 void sys_sanitize(char *s)
