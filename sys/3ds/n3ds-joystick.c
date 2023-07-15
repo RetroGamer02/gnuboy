@@ -203,16 +203,21 @@ void sdljoy_process_event(SDL_Event *event)
     //Read the CirclePad position
     hidCircleRead(&pos);
 
-    /*if (pos.dx < -15)
+    if (pos.dx < -15)
     {
         ev.type = EV_PRESS;
         ev.code = K_JOYLEFT;
         ev_postevent(&ev);
-    }
-
-    if (pos.dx > 15)
+    } else if (pos.dx > 15)
     {
         ev.type = EV_PRESS;
+        ev.code = K_JOYRIGHT;
+        ev_postevent(&ev);
+    } else {
+        ev.type = EV_RELEASE;
+        ev.code = K_JOYLEFT;
+        ev_postevent(&ev);
+        ev.type = EV_RELEASE;
         ev.code = K_JOYRIGHT;
         ev_postevent(&ev);
     }
@@ -222,26 +227,19 @@ void sdljoy_process_event(SDL_Event *event)
         ev.type = EV_PRESS;
         ev.code = K_JOYUP;
         ev_postevent(&ev);
-    }
-
-    if (pos.dy < -15)
+    } else if (pos.dy < -15)
     {
         ev.type = EV_PRESS;
         ev.code = K_JOYDOWN;
         ev_postevent(&ev);
-    }*/
-    
-    /*if (pos.dx > -15 && pos.dx < 15)
-    {
+    } else {
         ev.type = EV_RELEASE;
+        ev.code = K_JOYUP;
+        ev_postevent(&ev);
+        ev.type = EV_RELEASE;
+        ev.code = K_JOYDOWN;
         ev_postevent(&ev);
     }
-
-    if (pos.dy > -15 && pos.dy < 15)
-    {
-        ev.type = EV_RELEASE;
-        ev_postevent(&ev);
-    }*/
 
     //Set keys old values for the next frame
     kDownOld = kDown;
