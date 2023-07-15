@@ -81,8 +81,14 @@ void loadConfig(int *videomode)
 	int dmg_pallete;
 
 	FILE *config = fopen("sdmc:/3ds/GNUBoy/GNUBoy.cfg", "r");
-	fscanf(config, "%d %d",videomode, &dmg_pallete);
-	fclose(config);
+	if (config)
+	{
+		fscanf(config, "%d %d",videomode, &dmg_pallete);
+		fclose(config);
+	} else {
+		printf("GNUBoy.cfg not found.\n");
+	}
+	
 
 	for(int a = 0; a < 4; a++)
 	{
