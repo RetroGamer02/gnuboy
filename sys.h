@@ -11,6 +11,8 @@ void vid_close();
 void vid_setpal(int i, int r, int g, int b);
 void vid_settitle(char *title);
 
+extern int videomode;
+
 void pcm_init();
 int pcm_submit();
 void pcm_close();

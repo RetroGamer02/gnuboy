@@ -19,6 +19,8 @@ static int framelen = 16743;
 static int framecount;
 static int paused;
 
+int dmg_pallete;
+
 rcvar_t emu_exports[] =
 {
 	RCV_INT("framelen", &framelen, ""),
@@ -73,6 +75,47 @@ void emu_step()
  * make things work in the mean time. */
 
 void *sys_timer();
+
+void loadConfig(int *videomode)
+{
+	int dmg_pallete;
+
+	FILE *config = fopen("sdmc:/3ds/GNUBoy/GNUBoy.cfg", "r");
+	fscanf(config, "%d %d",videomode, &dmg_pallete);
+	fclose(config);
+
+	for(int a = 0; a < 4; a++)
+	{
+		for(int b = 0; b < 4; b++)
+		{
+			switch (dmg_pallete)
+			{
+				case 0:
+					dmg_pal[a][b] = def_gnu_pal[0][b];
+					break;
+				case 1:
+					dmg_pal[a][b] = def_dmg_pal[0][b];
+					break;
+				case 2:
+					dmg_pal[a][b] = def_pocket_pal[0][b];
+					break;
+				case 3:
+					dmg_pal[a][b] = def_light_pal[0][b];
+					break;
+				default:
+					dmg_pal[a][b] = def_dmg_pal[0][b];
+					break;
+			}
+		}
+	}
+}
+
+void saveConfig(int *videomode)
+{
+	FILE *config = fopen("sdmc:/3ds/GNUBoy/GNUBoy.cfg", "w");
+	fprintf(config, "%d %d",*videomode, dmg_pallete);
+	fclose(config);
+}
 
 unsigned int saveCounter = 0;
 

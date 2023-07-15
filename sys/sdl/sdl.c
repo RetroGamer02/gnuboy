@@ -17,6 +17,8 @@
 #include "input.h"
 #include "rc.h"
 
+#include "sys.h"
+
 extern void sdljoy_process_event(SDL_Event *event);
 
 struct fb fb;
@@ -111,7 +113,7 @@ static void overlay_init()
 	SDL_UnlockYUVOverlay(overlay);
 }
 
-void vid_init(int screenmode)
+void vid_init()
 {
 	int flags;
 
@@ -123,35 +125,33 @@ void vid_init(int screenmode)
 	if (SDL_Init(SDL_INIT_VIDEO))
 		die("SDL: Couldn't initialize SDL: %s\n", SDL_GetError());
 
-	if (screenmode == 0)
+	if (videomode == 0)
 	{
 		if (!(screen = SDL_SetVideoMode(vmode[0], vmode[1], 16, flags | SDL_CONSOLEBOTTOM)))
 		die("SDL: can't set video mode: %s\n", SDL_GetError());
-	} else if (screenmode == 1)
+	} else if (videomode == 1)
 	{
 		if (!(screen = SDL_SetVideoMode(vmode[0], vmode[1], 16, flags | SDL_FITHEIGHT | SDL_CONSOLEBOTTOM)))
 		die("SDL: can't set video mode: %s\n", SDL_GetError());
-	} else if (screenmode == 2)
+	} else if (videomode == 2)
 	{
 		if (!(screen = SDL_SetVideoMode(vmode[0], vmode[1], 16, flags | SDL_FULLSCREEN | SDL_CONSOLEBOTTOM)))
 		die("SDL: can't set video mode: %s\n", SDL_GetError());
-	} else if (screenmode == 3)
+	} else if (videomode == 3)
 	{
 		if (!(screen = SDL_SetVideoMode(vmode[0], vmode[1], 16, flags | SDL_BOTTOMSCR | SDL_CONSOLETOP)))
 		die("SDL: can't set video mode: %s\n", SDL_GetError());
-	} else if (screenmode == 4)
+	} else if (videomode == 4)
 	{
 		if (!(screen = SDL_SetVideoMode(vmode[0], vmode[1], 16, flags | SDL_FITHEIGHT | SDL_BOTTOMSCR | SDL_CONSOLETOP)))
 		die("SDL: can't set video mode: %s\n", SDL_GetError());
-	} else if (screenmode == 5)
+	} else if (videomode == 5)
 	{
 		if (!(screen = SDL_SetVideoMode(vmode[0], vmode[1], 16, flags | SDL_FULLSCREEN | SDL_BOTTOMSCR | SDL_CONSOLETOP)))
 		die("SDL: can't set video mode: %s\n", SDL_GetError());
 	}
 
-	//FILE *config = fopen("sdmc:/3ds/GNUBoy/GNUBoy.cfg", "w");
-	//fprintf(config, "videomode=%d",screenmode);
-	//fclose(config);
+	
 
 	SDL_ShowCursor(0);
 

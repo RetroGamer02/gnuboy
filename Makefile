@@ -37,8 +37,8 @@ SOURCES		:=	./ xz/ sys/3ds/ sys/sdl/
 INCLUDES	:=	./ xz/ sys/3ds/ sys/sdl/
 ROMFS		:=	romfs
 #---------------------------------------------------------------------------------
-APP_VER					:= 0053
-APP_TITLE				:= GNUBoy 3DS V0.5.3
+APP_VER					:= 0054
+APP_TITLE				:= GNUBoy 3DS V0.5.4
 APP_DESCRIPTION			:= GNUBoy GBC Emulator for Nintendo 3DS
 APP_AUTHOR				:= RetroGamer02
 PRODUCT_CODE			:= CTR-GNB

@@ -77,6 +77,12 @@ void lcd_reset();
 #define LCDC_BIT_WIN_MAP  (1<<6) /* WIN code area 0:9800-9bff, 1:9c00-9fff */
 #define LCDC_BIT_LCD_EN   (1<<7) /* LCD controller off or on */
 
+extern int dmg_pal[4][4];
+
+static int def_gnu_pal[4][4] = { 0x98d0e0, 0x68a0b0, 0x60707C, 0x2C3C3C };
+static int def_dmg_pal[4][4] = { 0x28ad8c, 0x21946c, 0x296b42, 0x314221 };
+static int def_pocket_pal[4][4] =  { 0xffffff, 0xa9a9a9, 0x545454, 0x000000 };
+static int def_light_pal[4][4] =  { 0x8cad28, 0x6c9421, 0x426b29, 0x214231 };
 
 #endif
 

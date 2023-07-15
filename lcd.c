@@ -54,14 +54,12 @@ static int rgb332;
 static int sprsort = 1;
 static int sprdebug;
 
-#define DEF_GNU_PAL { 0x98d0e0, 0x68a0b0, 0x60707C, 0x2C3C3C }
-#define DEF_DMG_PAL { 0xe0f8d0, 0x88c070, 0x346856, 0x081820 }
+/*#define DEF_GNU_PAL { 0x98d0e0, 0x68a0b0, 0x60707C, 0x2C3C3C }
+#define DEF_DMG_PAL { 0x28ad8c, 0x21946c, 0x296b42, 0x314221 }
 #define DEF_POCKET_PAL { 0xffffff, 0xa9a9a9, 0x545454, 0x000000 }
-#define DEF_LIGHT_PAL { 0xffffaa, 0x999944, 0x666633, 0x222200 } //Eyed it so might be off
+#define DEF_LIGHT_PAL { 0x8cad28, 0x6c9421, 0x426b29, 0x214231 }*/
 
-//Todo add pallet selection to menu.
-
-static int dmg_pal[4][4] = { DEF_DMG_PAL, DEF_DMG_PAL, DEF_DMG_PAL, DEF_DMG_PAL };
+int dmg_pal[4][4] = { def_dmg_pal, def_dmg_pal, def_dmg_pal, def_dmg_pal };
 
 static int usefilter, filterdmg;
 static int filter[3][4] = {

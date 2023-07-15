@@ -26,18 +26,20 @@ static enum menu_page currpage;
 static unsigned char screen[160*144];
 static char statusline[64];
 
-const char* version = "Version 0.5.3";
+const char* version = "Version 0.5.4 Dev Build";
 
 int videomode = 0;
+extern int dmg_pallete;
 
 void menu_init(void) {
 	ezmenu_init(&ezm, 160, 144, FONTW, FONTH);
 	ezm.wraparound = 1;
-	vid_init(1);
+	loadConfig(&videomode);
+	vid_init();
 }
 
 static int allowed_ext(char *fn) {
-	static const char *exttab[] = {".gb", ".gbc", ".xz", ".gz", ".zip", 0};
+	static const char *exttab[] = {".gb", ".gbc", ".xz", ".gz", ".zip", ".GB", ".GBC", ".XZ", ".GZ", ".ZIP", ".Gb", ".Gbc", ".Xz", ".Gz", ".Zip", 0};
 	char *e = strrchr(fn, '.');
 	if(!e) return 0;
 	int i;
@@ -72,6 +74,10 @@ static const char* video_menu_items[] = {
 		"back",
 	};
 
+static const char* dmg_pal_menu_items[] = {
+		"GNU", "DMG", "Pocket", "Light", "back",
+	};
+
 void menu_initpage(enum menu_page page) {
 	static const char* loaderr_menu_items[] = {"back"};
 	static const char* main_menu_items[] = {
@@ -81,6 +87,7 @@ void menu_initpage(enum menu_page page) {
 		"save state",
 		"controller config",
 		"change video mode",
+		"change dmg pallete",
 		"reset",
 		"quit",
 	};
@@ -122,7 +129,12 @@ void menu_initpage(enum menu_page page) {
 		break;
 	case mp_vidmode:
 		ezmenu_setheader(&ezm, "GNUBOY-3DS VIDEO MENU");
-		ezmenu_setlines(&ezm, (void*)video_menu_items, sizeof(video_menu_items)/sizeof(main_menu_items[0]));
+		ezmenu_setlines(&ezm, (void*)video_menu_items, sizeof(video_menu_items)/sizeof(video_menu_items[0]));
+		ezmenu_setfooter(&ezm, version);
+		break;
+	case mp_dmgpal:
+		ezmenu_setheader(&ezm, "GNUBOY-3DS PALLETE MENU");
+		ezmenu_setlines(&ezm, (void*)dmg_pal_menu_items, sizeof(dmg_pal_menu_items)/sizeof(dmg_pal_menu_items[0]));
 		ezmenu_setfooter(&ezm, version);
 		break;
 	case mp_romsel:
@@ -347,6 +359,7 @@ entry:;
 				}
 			} else if (currpage == mp_main) {
 				if(!strcmp(ezm.vislines[ezm.vissel], "continue")) {
+					saveConfig(&videomode);
 					if(emu_paused()) goto out;
 				}
 				else if(!strcmp(ezm.vislines[ezm.vissel], "reset")) {
@@ -363,6 +376,10 @@ entry:;
 					menu_initpage(mp_vidmode);
 					goto entry;
 				}
+				else if(!strcmp(ezm.vislines[ezm.vissel], "change dmg pallete")) {
+					menu_initpage(mp_dmgpal);
+					goto entry;
+				}
 				else if(!strcmp(ezm.vislines[ezm.vissel], "controller config")) {
 					menu_initpage(mp_controller);
 					goto entry;
@@ -376,6 +393,7 @@ entry:;
 					goto entry;
 				}
 				else if(!strcmp(ezm.vislines[ezm.vissel], "quit")) {
+					saveConfig(&videomode);
 					loader_unload();
 					exit(0);
 				}
@@ -384,6 +402,7 @@ entry:;
 				goto entry;
 			} else if (currpage == mp_controller) {
 				if(!strcmp(ezm.vislines[ezm.vissel], "back")) {
+					saveConfig(&videomode);
 					menu_initpage(mp_main);
 					goto entry;
 				}
@@ -399,10 +418,51 @@ entry:;
 				menu_paint();
 			} else if (currpage == mp_vidmode) {
 				if(!strcmp(ezm.vislines[ezm.vissel], "back")) {
+					saveConfig(&videomode);
 					menu_initpage(mp_main);
 					goto entry;
 				}
-				vid_init(ezm.vissel - 2);
+				videomode = ezm.vissel - 2;
+				vid_init();
+				goto entry;
+			} else if (currpage == mp_dmgpal) {
+				if(!strcmp(ezm.vislines[ezm.vissel], "back")) {
+					saveConfig(&videomode);
+					menu_initpage(mp_main);
+					goto entry;
+				}
+				
+				for(int a = 0; a < 4; a++)
+				{
+					for(int b = 0; b < 4; b++)
+					{
+						switch (ezm.vissel - 2)
+						{
+							case 0:
+								dmg_pal[a][b] = def_gnu_pal[0][b];
+								dmg_pallete = 0;
+								break;
+							case 1:
+								dmg_pal[a][b] = def_dmg_pal[0][b];
+								dmg_pallete = 1;
+								break;
+							case 2:
+								dmg_pal[a][b] = def_pocket_pal[0][b];
+								dmg_pallete = 2;
+								break;
+							case 3:
+								dmg_pal[a][b] = def_light_pal[0][b];
+								dmg_pallete = 3;
+								break;
+							default:
+								dmg_pal[a][b] = def_dmg_pal[0][b];
+								dmg_pallete = 1;
+								break;
+						}
+					}
+				}
+
+				saveConfig(&videomode); 
 				goto entry;
 			} else if (currpage == mp_savestate || currpage == mp_loadstate) {
 				if(!strcmp(ezm.vislines[ezm.vissel], "back")) {
