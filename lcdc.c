@@ -70,7 +70,8 @@ static void stat_change(int stat)
 void lcdc_change(byte b)
 {
 	byte old = R_LCDC;
-	R_LCDC = b;
+	if (IF_TIMER > 3)
+		R_LCDC = b; //LCD Still turned on to early? Fixme!
 	if ((R_LCDC ^ old) & 0x80) /* lcd on/off change */
 	{
 		R_LY = 0;
